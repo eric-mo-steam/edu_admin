@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>湖大教务系统</title>
+<link rel="shortcut icon" href="res/favicon.ico">
+<!-- <script src="js/vue.min.js"></script> -->
+<script src="js/axios.min.js"></script>
+<script src="js/jquery-1.8.0.js"></script>
+<link href="res/layui-v2.3.0/layui/css/layui.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+body {
+    background-color: rgba(228, 228, 228, 1);
+}
+
+.banner {
+    background: black;
+    width: inherit;
+    height: 70px;
+    color: white;
+    font-weight: 700;
+    font-size:32px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.body{
+    background-color: rgba(255, 255, 255, 1);
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(121, 121, 121, 1);
+    border-radius: 12px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.34901960);
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-top: 80px;
+    width: 900px;
+    height: 450px;
+}
+
+.content {
+    height: 500px;
+    width: 720px;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-top: 35px
+}
+
+.divide {
+    border:0;
+    background-color:rgb(160, 160, 160);
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.34901960);
+}
+
+
+.content-flex{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.login-btn {
+    width: 120px;height: 32px;margin-left: 40px;font-size: 18px;font-weight: 700;box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.34901960);border-radius: 4px;
+}
+</style>
+</head>
+
+<body>
+<div class="banner">湖南大学教学服务系统</div>
+
+<div class="body">
+    <div class="content">
+        <p style="font-size: 24px">请登录</p>
+        <hr class="divide">
+        
+        <div class="content-flex">
+            <div>
+                <p style="font-size: 20px;font-weight: 600;margin: 20px 0 30px 10px">登录教学服务系统</p>
+                <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户类型</label>
+                        <div class="layui-input-inline">
+                            <select name="interest" lay-filter="aihao">
+                            <option value="" selected="">请选择</option>
+                            <option value="1">学生</option>
+                            <option value="2">老师</option>
+                            <option value="0">管理员</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">&nbsp;&nbsp;账&nbsp;&nbsp;&nbsp;&nbsp;号&nbsp;&nbsp;</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="请输入账号" class="layui-input">
+                        </div>
+                    </div>
+                        
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">&nbsp;&nbsp;密&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;&nbsp;</label>
+                        <div class="layui-input-inline">
+                            <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <p style="height: 2px;">
+                    <div style="margin-top: 10px">
+                        <span style="color: #0099FF;margin-left: 30px;">忘记自己的密码?</span>
+                        <button class="layui-btn layui-btn-sm layui-btn-normal login-btn">登录</button>
+                    </div>
+                </form> 
+            </div>
+
+            <div class="divide" style="width: 1px;height: 320px;">
+            </div>
+            <div style="width: 300px;">
+                <p style="font-size: 20px;font-weight: 600;margin: 20px 0 20px 10px">通知公告</p>
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+
+
+
+<script src="res/layui-v2.3.0/layui/layui.all.js"></script>
+
+<script type="text/javascript">
+    function clk(e){
+        $(e).parent('div').parent('div').addClass('layui-form-selected');
+    }
+</script>
+</body>
+</html>
