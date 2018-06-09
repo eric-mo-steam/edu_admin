@@ -1,10 +1,6 @@
 var util = require('util')
 var url = require('url')
 var express = require('express')
-
-// 数据库mysql连接器
-var conn = require('./database/connector')
-
 var app = express()
 
 // public下可放置图片资源文件
@@ -16,21 +12,15 @@ app.get('/*.html', function (req, res) {
 })
 
 // 数据请求
-app.get('/user', function (req, res) {
-    console.log("data:" + req.path)
-    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
-
-    var sql = 'select distinct * from student join user using(uid);'
-    conn.query(sql, function(data){
-        console.log(data)
-        res.end(JSON.stringify(data))
-    })
+app.get('/student/*', function (req, res) {
+    var service = require('./service/student')
+    service.getGrade(req, res)
 })
 
 // 其他请求，返回404
 app.get('/*', function (req, res) {
     console.log("404: " + req.path)
-    res.writeHead(404, {'Content-Type': 'text/html'})
+    res.writeHead(404, {'Content-Type': 'text/html;charset=utf-8'})
     res.end()
 })
  

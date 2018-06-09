@@ -38,6 +38,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
+INSERT INTO `course` VALUES ('cs001','数据库原理','T002'),('cs002','计算机网络','T001'),('cs003','计算导论','T003');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,11 +51,11 @@ DROP TABLE IF EXISTS `sc`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sc` (
   `cid` varchar(20) NOT NULL,
-  `tid` varchar(20) NOT NULL,
+  `sid` varchar(20) NOT NULL,
   `grade` int(11) DEFAULT NULL,
-  PRIMARY KEY (`cid`,`tid`),
-  KEY `fk_sc_1_idx` (`tid`),
-  CONSTRAINT `fk_sc_1` FOREIGN KEY (`tid`) REFERENCES `teacher` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  PRIMARY KEY (`cid`,`sid`),
+  KEY `fk_sc_1_idx` (`sid`),
+  CONSTRAINT `fk_sc_1` FOREIGN KEY (`sid`) REFERENCES `student` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_sc_2` FOREIGN KEY (`cid`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -65,6 +66,7 @@ CREATE TABLE `sc` (
 
 LOCK TABLES `sc` WRITE;
 /*!40000 ALTER TABLE `sc` DISABLE KEYS */;
+INSERT INTO `sc` VALUES ('cs001','S101',75),('cs001','S102',80),('cs001','S103',85),('cs002','S101',75),('cs002','S102',90),('cs003','S101',70);
 /*!40000 ALTER TABLE `sc` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +95,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES ('101','张飞',1,'计算机科学与技术',1);
+INSERT INTO `student` VALUES ('S101','张飞',1,'计算机科学与技术',2),('S102','鹿晗',1,'通信工程',3),('S103','孟美琪',-1,'软件工程',4),('S104','吴宣仪',-1,'物联网',5);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,6 +123,7 @@ CREATE TABLE `teacher` (
 
 LOCK TABLES `teacher` WRITE;
 /*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
+INSERT INTO `teacher` VALUES ('T001','吴迪','计算机工程系',6),('T002','王伟胜','软件工程系',7),('T003','杨圣洪','计算机科学系',8);
 /*!40000 ALTER TABLE `teacher` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +139,7 @@ CREATE TABLE `user` (
   `pass` varchar(45) NOT NULL COMMENT '用户密码',
   `type` int(11) NOT NULL COMMENT '用户类型',
   PRIMARY KEY (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +148,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'333333',0),(2,'333333',1);
+INSERT INTO `user` VALUES (1,'333333',0),(2,'333333',1),(3,'333333',1),(4,'333333',1),(5,'333333',1),(6,'333333',2),(7,'333333',2),(8,'333333',2);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -158,4 +161,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-01 20:50:49
+-- Dump completed on 2018-06-02  0:01:46
