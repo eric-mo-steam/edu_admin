@@ -2,7 +2,7 @@ var mysql = require('mysql')
 var conn = mysql.createConnection({
     host    : 'localhost',
     user    : 'root',
-    password: 'steam',
+    password: '216913',
     database: 'edu_admin'
 })
 

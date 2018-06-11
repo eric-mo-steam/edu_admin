@@ -16,7 +16,16 @@ app.get('/student/*', function (req, res) {
     var service = require('./service/student')
     service.getGrade(req, res)
 })
-
+//登陆
+app.get('/Login/*', function (req, res) {
+    var service = require('./service/Login')
+    service.Login(req, res)
+})
+//课程信息
+app.get('/course/*', function (req, res) {
+    var service = require('./service/course')
+    service.course(req, res)
+})
 // 其他请求，返回404
 app.get('/*', function (req, res) {
     console.log("404: " + req.path)
