@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <title>湖大教务系统</title>
-<link rel="shortcut icon" href="res/favicon.ico">
+<link rel="shortcut icon" href="/res/favicon.ico">
 <!-- <script src="js/vue.min.js"></script> -->
-<script src="js/axios.min.js"></script>
-<script src="js/jquery-1.8.0.js"></script>
-<link href="res/layui-v2.3.0/layui/css/layui.css" rel="stylesheet" type="text/css" />
+<script src="/js/axios.min.js"></script>
+<script src="/js/jquery-1.8.0.js"></script>
+<link href="/res/layui-v2.3.0/layui/css/layui.css" rel="stylesheet" type="text/css" />
 
 <style type="text/css">
 body {
@@ -87,11 +87,11 @@ body {
         <div class="content-flex">
             <div>
                 <p style="font-size: 20px;font-weight: 600;margin: 20px 0 30px 10px">登录教学服务系统</p>
-                <form class="layui-form" action="">
+                <form class="layui-form" action="" method="POST">
                     <div class="layui-form-item">
                         <label class="layui-form-label">用户类型</label>
                         <div class="layui-input-inline">
-                            <select name="interest" lay-filter="aihao">
+                            <select name="userType" lay-filter="aihao">
                             <option value="" selected="">请选择</option>
                             <option value="1">学生</option>
                             <option value="2">老师</option>
@@ -134,12 +134,7 @@ body {
 
 
 
-<script src="res/layui-v2.3.0/layui/layui.all.js"></script>
+<script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
 
-<script type="text/javascript">
-    function clk(e){
-        $(e).parent('div').parent('div').addClass('layui-form-selected');
-    }
-</script>
 </body>
 </html>
