@@ -41,14 +41,14 @@ var n = new Vue({
     }
 })
 
-// axios({
-//      method:'get',
-//      url:'http://localhost:8081/data'
-// }).then(function(resp){
-//       n.name = resp.data;
-// }).catch(resp => {
-//      console.log('请求失败：'+resp.status+','+resp.statusText);
-// });
+axios({
+     method:'get',
+     url:'http://localhost:8081/data'
+}).then(function(resp){
+      n.name = resp.data;
+}).catch(resp => {
+     console.log('请求失败：'+resp.status+','+resp.statusText);
+});
 
 </script>
 </body>
