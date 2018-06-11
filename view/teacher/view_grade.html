@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>湖大教务系统</title>
+<link rel="shortcut icon" href="res/favicon.ico">
+<script src="/js/vue.min.js"></script>
+<script src="/js/axios.min.js"></script>
+<script src="/js/jquery-1.8.0.js"></script>
+<link href="/res/layui-v2.3.0/layui/css/layui.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+.main-body {
+    margin : 80px 200px 40px 200px;
+}
+
+table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
+    text-align: center;
+}
+
+.table-input {
+    height: 26px;
+    width: 100px;
+    display: inline;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="main-body">
+    <div class="layui-form">
+        <table class="layui-table">
+            <colgroup>
+            <col width="20">
+            <col width="120">
+            <col width="120">
+            <col width="100">
+            <col width="180">
+            <col width="160">
+            <col width="100">
+            <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>专业</th>
+                    <th>成绩</th>
+                    <th>成绩修改为</th>
+                </tr> 
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>101</td>
+                <td>张三</td>
+                <td>男</td>
+                <td>计算机科学与技术</td>
+                <td>90</td>
+                <td><input  name="number" type="text" class="layui-input table-input" lay-verify="required|number" autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>102</td>
+                <td>李四</td>
+                <td>男</td>
+                <td>物联网工程</td>
+                <td>79</td>
+                <td><input  name="number" type="text" class="layui-input table-input" lay-verify="required|number" autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>103</td>
+                <td>王五</td>
+                <td>男</td>
+                <td>计算机科学与技术</td>
+                <td>80</td>
+                <td><input  name="number" type="text" class="layui-input table-input" lay-verify="required|number" autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>104</td>
+                <td>丽君</td>
+                <td>女</td>
+                <td>软件工程</td>
+                <td>91</td>
+                <td><input  name="number" type="text" class="layui-input table-input" lay-verify="required|number" autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>105</td>
+                <td>宋梅</td>
+                <td>女</td>
+                <td>通信工程</td>
+                <td>90</td>
+                <td><input  name="number" type="text" class="layui-input table-input" lay-verify="required|number" autocomplete="off"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="layui-row" style="margin-top: 30px;">
+        <div class="layui-col-md1 layui-col-md-offset11">
+            <button class="layui-btn layui-btn-sm layui-btn-normal" style="width: 95px;">修改成绩</button>
+        </div>
+    </div>
+    
+</div>
+
+<script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
+<script type="text/javascript">
+   
+</script>
+</body>

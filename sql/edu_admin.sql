@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS `course`;
 CREATE TABLE `course` (
   `id` varchar(20) NOT NULL COMMENT '课程号（主键）',
   `name` varchar(45) DEFAULT NULL COMMENT '课程名',
+  `credit` int(11) DEFAULT NULL COMMENT '学分',
   `tid` varchar(20) DEFAULT NULL COMMENT '授课教师工号',
   PRIMARY KEY (`id`),
   KEY `fk_course_1_idx` (`tid`),
@@ -38,7 +39,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES ('cs001','数据库原理','T002'),('cs002','计算机网络','T001'),('cs003','计算导论','T003');
+INSERT INTO `course` VALUES ('cs001','数据库原理',3,'T002'),('cs002','计算机网络',2,'T001'),('cs003','计算导论',3,'T003');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,7 +140,7 @@ CREATE TABLE `user` (
   `pass` varchar(45) NOT NULL COMMENT '用户密码',
   `type` int(11) NOT NULL COMMENT '用户类型',
   PRIMARY KEY (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,4 +162,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-02  0:01:46
+-- Dump completed on 2018-06-11 21:23:23

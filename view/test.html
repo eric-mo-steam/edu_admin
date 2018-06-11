@@ -1,90 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>layout 后台大布局 - Layui</title>
-  <script src="js/jquery-1.8.0.js"></script>
-  <link href="res/layui-v2.3.0/layui/css/layui.css" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8">
+    <title>Vue 测试实例</title>
+    <link rel="shortcut icon" href="res/favicon.ico">
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/jquery-1.8.0.js"></script>
+    <script src="res/layui-v2.3.0/layui/layui.all.js"></script>
+    <link href="res/layui-v2.3.0/layui/css/layui.css" rel="stylesheet" type="text/css" />
 </head>
-<body class="layui-layout-body">
-<div class="layui-layout layui-layout-admin">
-  <div class="layui-header">
-    <div class="layui-logo">layui 后台布局</div>
-    <!-- 头部区域（可配合layui已有的水平导航） -->
-    <ul class="layui-nav layui-layout-left">
-      <li class="layui-nav-item"><a href="">控制台</a></li>
-      <li class="layui-nav-item"><a href="">商品管理</a></li>
-      <li class="layui-nav-item"><a href="">用户</a></li>
-      <li class="layui-nav-item">
-        <a href="javascript:;">其它系统</a>
-        <dl class="layui-nav-child">
-          <dd><a href="">邮件管理</a></dd>
-          <dd><a href="">消息管理</a></dd>
-          <dd><a href="">授权管理</a></dd>
-        </dl>
-      </li>
-    </ul>
-    <ul class="layui-nav layui-layout-right">
-      <li class="layui-nav-item">
-        <a href="javascript:;">
-          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-          贤心
-        </a>
-        <dl class="layui-nav-child">
-          <dd><a href="">基本资料</a></dd>
-          <dd><a href="">安全设置</a></dd>
-        </dl>
-      </li>
-      <li class="layui-nav-item"><a href="">退了</a></li>
-    </ul>
-  </div>
-  
-  <div class="layui-side layui-bg-black">
-    <div class="layui-side-scroll">
-      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-        <li class="layui-nav-item layui-nav-itemed">
-          <a class="" href="javascript:;">所有商品</a>
-          <dl class="layui-nav-child">
-            <dd><a href="javascript:;">列表一</a></dd>
-            <dd><a href="javascript:;">列表二</a></dd>
-            <dd><a href="javascript:;">列表三</a></dd>
-            <dd><a href="">超链接</a></dd>
-          </dl>
-        </li>
-        <li class="layui-nav-item">
-          <a href="javascript:;">解决方案</a>
-          <dl class="layui-nav-child">
-            <dd><a href="javascript:;">列表一</a></dd>
-            <dd><a href="javascript:;">列表二</a></dd>
-            <dd><a href="">超链接</a></dd>
-          </dl>
-        </li>
-        <li class="layui-nav-item"><a href="">云市场</a></li>
-        <li class="layui-nav-item"><a href="">发布商品</a></li>
-      </ul>
-    </div>
-  </div>
-  
-  <div class="layui-body">
-    <!-- 内容主体区域 -->
-    <div style="padding: 15px;">内容主体区域</div>
-  </div>
-  
-  <div class="layui-footer">
-    <!-- 底部固定区域 -->
-    © layui.com - 底部固定区域
-  </div>
+
+
+<body>
+<div id="app">
+    <p v-if="seen">现在你看到我了</p>
+    <button v-on:click="greet" class='layui-btn layui-btn-primary'>Greet</button>
+    <template v-if="ok">
+      
+        <h1>{{name}}</h1>
+        <p>学的不仅是技术，更是梦想！</p>
+        <p>哈哈哈，打字辛苦啊！！！</p>
+    </template>
+    <button class="layui-btn layui-btn-normal">hello</button>
+
 </div>
-<script src="res/layui-v2.3.0/layui/layui.all.js"></script>
+
 <script>
-//JavaScript代码区域
-layui.use('element', function(){
-  var element = layui.element;
-  
-});
+var n = new Vue({
+    el: '#app',
+    data: {
+        seen: true,
+        ok: true,
+        name : ''
+    }, methods:{
+        greet: function (event) {
+            // alert("Hello")
+            layer.msg('hello'); 
+        }
+    }
+})
+
+// axios({
+//      method:'get',
+//      url:'http://localhost:8081/data'
+// }).then(function(resp){
+//       n.name = resp.data;
+// }).catch(resp => {
+//      console.log('请求失败：'+resp.status+','+resp.statusText);
+// });
+
 </script>
 </body>
 </html>
-      

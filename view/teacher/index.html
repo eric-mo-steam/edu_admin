@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>湖大教务系统</title>
+<link rel="shortcut icon" href="/res/favicon.ico">
+<script src="/js/vue.min.js"></script>
+<script src="/js/axios.min.js"></script>
+<script src="/js/jquery-1.8.0.js"></script>
+<link href="/res/layui-v2.3.0/layui/css/layui.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+.banner {
+    background: black;
+    width: inherit;
+    height: 70px;
+    color: white;
+    font-weight: 700;
+    font-size:32px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+
+ul.layui-nav {
+    width: 40%;
+    display: table;
+    margin: 0 auto;
+    left: 0px;
+    right: 0px;
+}
+</style>
+</head>
+
+<body class="layui-layout-body">   
+<div class="layui-layout layui-layout-admin">
+<div class="banner">湖南大学教学服务系统</div>
+
+
+<div class="layui-header">
+    <!-- <div class="layui-logo">湖大教务系统</div> -->
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-nav-left" >
+        <li class="layui-nav-item" style="display : table-cell;text-align: center;">
+            <a href="/teacher/course_operate.html" target="main-frame">课程操作</a>
+        </li>
+        <li class="layui-nav-item" style="display : table-cell;text-align: center;">
+            <a href="/index.html">退出登录</a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="layui-body" style="left: 0;top: 150px">
+   <iframe id="main-frame" name="main-frame" width="101%" height="100%" src="" seamless></iframe>
+</div>
+
+<div class="layui-footer" style="left: 0">
+    <span style="padding-left: 15px">教师：[T001] 吴迪</span>
+    <span class="layui-layout-right" style="padding-right: 15px">Copyright&nbsp;@&nbsp;2018&nbsp;CS1505&nbsp;Group 4&nbsp;&nbsp;&nbsp;ALL&nbsp;&nbsp;RIGHTS&nbsp;RESERVER</span>
+</div>
+
+
+<script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>
