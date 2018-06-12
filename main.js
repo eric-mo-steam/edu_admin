@@ -50,11 +50,21 @@ app.get('/course/*', function (req, res) {
 
 app.get('/data', function(req, res) {
     var json = JSON.stringify([
-        {id : 101, name : '张三', sex : '男', major : '计算机科学与技术', grade : 90},
+        {id : 101, name : '张三',  sex : '男', major : '计算机科学与技术', grade : 90},
         {id : 102, name : '李四', sex : '男', major : '物联网工程', grade : 79},
         {id : 103, name : '王五', sex : '男', major : '计算机科学与技术', grade : 80},
         {id : 104, name : '丽君', sex : '女', major : '软件工程', grade : 91},
         {id : 105, name : '宋梅', sex : '女', major : '通信工程', grade : 90},
+    ])
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+app.get('/course_info', function(req, res){
+    var json = JSON.stringify([
+        {id : 'CS1001', name : '数据结构', credit : 4, tname : '李晓鸿'},
+        {id : 'CS1002', name : '计算机网络', credit : 4, tname : '王东'},
+        {id : 'CS1003', name : '算法设计', credit : 5, tname : '姜文君'}
     ])
     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     res.end(json)
