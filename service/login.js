@@ -1,5 +1,5 @@
 // 数据库mysql连接器
-var conn = require('../database/connector')
+// var conn = require('../database/connector')
 // 加密模块crypto
 var encrypt = require('./encrypt')
 

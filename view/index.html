@@ -135,37 +135,37 @@ body {
 
 <script>
     var n = new Vue({
-    el: '#app',
-    data: {
-        username : '',
-        password : '',
-        userType : ''
-    }, methods:{
-        login: function (event) {
-            console.log('username: ' + this.username)
-            console.log('password: ' + this.password)
-            console.log('userType: ' + this.userType)
+        el: '#app',
+        data: {
+            username : '',
+            password : '',
+            userType : ''
+        }, methods:{
+            login: function (event) {
+                console.log('username: ' + this.username)
+                console.log('password: ' + this.password)
+                console.log('userType: ' + this.userType)
 
-            axios.post('/login', {
-                username: this.username,
-                password: this.password,
-                userType: this.userType
-            })
-            .then(function (res) {
-                if (res.data.responseCode === 200) {
-                    window.location.href = res.data.url
-                } else {
-                    var msg = res.data.responseMsg
-                    layer.alert(msg, {icon: 2});
+                axios.post('/login', {
+                    username: this.username,
+                    password: this.password,
+                    userType: this.userType
+                })
+                .then(function (res) {
+                    if (res.data.responseCode === 200) {
+                        window.location.href = res.data.url
+                    } else {
+                        var msg = res.data.responseMsg
+                        layer.alert(msg, {icon: 2});
 
-                }
-            })
-            .catch(function (res) {
-                console.log(res);
-            });
+                    }
+                })
+                .catch(function (res) {
+                    console.log(res);
+                });
+            }
         }
-    }
-})
+    })
 </script>
 
 <script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
