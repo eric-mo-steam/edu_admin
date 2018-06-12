@@ -58,20 +58,22 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
     </div>
 
 <script>
-    axios.get('/course_view')
-    .then(function (res) {
-        var rows = res.data
-        console.log(rows)
-        var app = new Vue({
+    var app = new Vue({
             el: '#app',
             data: {
-                rows : rows
+                rows : {}
             }, methods:{
                 reload: function (event) {
                     location.reload()
                 }
             }
-        })
+    })
+
+    axios.get('/course_view')
+    .then(function (res) {
+        app.rows = res.data
+        console.log(rows)
+        
     })
     .catch(function (res) {
         console.log(res);
