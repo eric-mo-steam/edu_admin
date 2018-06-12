@@ -1,46 +1,45 @@
 var util = require('util')
 var url = require('url')
+
 var express = require('express')
 var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser');
+
+var encrypt = require('./service/encrypt')
+var login = require('./service/login')
+
 var app = express()
 
 // public下可放置图片资源文件
 app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
+app.use(cookieParser());
 
 // 路由转发，页面请求
 app.get('/*.html', function (req, res) {
-    res.sendFile(__dirname + "/view/" + req.path, function(err) {
-        if (err) {
-            urlNotFound(req, res);
-        }
-    })
+    var data = login.validLogin(req, res)
+    if (data) {
+        res.sendFile(__dirname + "/view/" + req.path, function(err) {
+            if (err) {
+                urlNotFound(req, res);
+            }
+        })
+    } else {
+        // cookie不存在或者异常，则返回首页
+        res.sendFile(__dirname + "/view/index.html")
+    }
 })
 
 app.post('/login', function(req, res) {
-    var userType = req.body.userType
-    if (userType) {
-        if (userType == 0) {
-            res.sendFile(__dirname + "/view" + "/admin/index.html")
-        } else if (userType == 1) {
-            res.sendFile(__dirname + "/view" + "/student/index.html")
-        } else if (userType == 2) {
-            res.sendFile(__dirname + "/view" + "/teacher/index.html")
-        }
-    }
+    var service = require('./service/login')
+    service.login(req, res)
 })
 
 // 数据请求
 app.get('/student/*', function (req, res) {
     var service = require('./service/student')
     service.getGrade(req, res)
-})
-
-//登陆
-app.get('/Login/*', function (req, res) {
-    var service = require('./service/Login')
-    service.Login(req, res)
 })
 
 //课程信息
@@ -79,12 +78,10 @@ var server = app.listen(8000, function () {
 
 function badRequest(req, res) {
     console.log("500: " + req.path)
-    res.writeHead(500, {'Content-Type': 'text/html;charset=utf-8'})
-    res.end()
+    res.status(500).end();
 }
 
 function urlNotFound(req, res) {
     console.log("404: " + req.path)
-    res.writeHead(404, {'Content-Type': 'text/html;charset=utf-8'})
-    res.end()
+    res.status(404).end();
 }

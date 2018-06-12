@@ -41,14 +41,29 @@ var n = new Vue({
     }
 })
 
-axios({
-     method:'get',
-     url:'http://localhost:8081/data'
-}).then(function(resp){
-      n.name = resp.data;
-}).catch(resp => {
-     console.log('请求失败：'+resp.status+','+resp.statusText);
-});
+
+// axios.get('/user', {
+//     params: {
+//         ID: 12345
+//     }
+// })
+// .then(function (response) {
+//     console.log(response);
+// })
+// .catch(function (response) {
+//     console.log(response);
+// });
+
+// axios.post('/user', {
+//     firstName: 'Fred',
+//     lastName: 'Flintstone'
+// })
+// .then(function (response) {
+//     console.log(response);
+// })
+// .catch(function (response) {
+//     console.log(response);
+// });
 
 </script>
 </body>

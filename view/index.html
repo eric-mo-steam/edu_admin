@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>湖大教务系统</title>
 <link rel="shortcut icon" href="/res/favicon.ico">
-<!-- <script src="js/vue.min.js"></script> -->
+<script src="/js/vue.min.js"></script>
 <script src="/js/axios.min.js"></script>
 <script src="/js/jquery-1.8.0.js"></script>
 <link href="/res/layui-v2.3.0/layui/css/layui.css" rel="stylesheet" type="text/css" />
@@ -85,17 +85,17 @@ body {
         <hr class="divide">
         
         <div class="content-flex">
-            <div>
+            <div id="app">
                 <p style="font-size: 20px;font-weight: 600;margin: 20px 0 30px 10px">登录教学服务系统</p>
-                <form class="layui-form" action="/login" method="POST">
+                <div class="layui-form">
                     <div class="layui-form-item">
                         <label class="layui-form-label">用户类型</label>
                         <div class="layui-input-inline">
-                            <select name="userType" lay-filter="aihao">
-                            <option value="" selected="">请选择</option>
-                            <option value="1">学生</option>
-                            <option value="2">老师</option>
-                            <option value="0">管理员</option>
+                            <select name="userType" lay-filter="usertype">
+                                <option value="" selected="">请选择</option>
+                                <option value="1">学生</option>
+                                <option value="2">老师</option>
+                                <option value="0">管理员</option>
                             </select>
                         </div>
                     </div>
@@ -103,22 +103,22 @@ body {
                     <div class="layui-form-item">
                         <label class="layui-form-label">&nbsp;&nbsp;用&nbsp;&nbsp;&nbsp;&nbsp;户&nbsp;&nbsp;</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="请输入账号" class="layui-input">
+                            <input type="text" v-model="username" lay-verify="title" autocomplete="off" placeholder="请输入账号" class="layui-input">
                         </div>
                     </div>
                         
                     <div class="layui-form-item">
                         <label class="layui-form-label">&nbsp;&nbsp;密&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;&nbsp;</label>
                         <div class="layui-input-inline">
-                            <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                            <input type="password" v-model="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <p style="height: 2px;">
                     <div style="margin-top: 10px">
                         <span style="color: #0099FF;margin-left: 30px;">忘记自己的密码?</span>
-                        <button class="layui-btn layui-btn-sm layui-btn-normal login-btn">登录</button>
+                        <button @click="login" class="layui-btn layui-btn-sm layui-btn-normal login-btn">登录</button>
                     </div>
-                </form> 
+                </div> 
             </div>
 
             <div class="divide" style="width: 1px;height: 320px;">
@@ -133,8 +133,46 @@ body {
 </div>
 
 
+<script>
+    var n = new Vue({
+    el: '#app',
+    data: {
+        username : '',
+        password : '',
+        userType : ''
+    }, methods:{
+        login: function (event) {
+            console.log('username: ' + this.username)
+            console.log('password: ' + this.password)
+            console.log('userType: ' + this.userType)
+
+            axios.post('/login', {
+                username: this.username,
+                password: this.password,
+                userType: this.userType
+            })
+            .then(function (res) {
+                if (res.data.responseCode === 200) {
+                    window.location.href = res.data.url
+                } else {
+                    var msg = res.data.responseMsg
+                    layer.alert(msg, {icon: 2});
+
+                }
+            })
+            .catch(function (res) {
+                console.log(res);
+            });
+        }
+    }
+})
+</script>
 
 <script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
-
+<script type="text/javascript">
+    $('dd').click(function(){
+        n.userType = $(this).attr('lay-value');
+    })
+</script>
 </body>
 </html>
