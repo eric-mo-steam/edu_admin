@@ -60,11 +60,24 @@ app.get('/data', function(req, res) {
     res.end(json)
 })
 
-app.get('/course_info', function(req, res){
+app.get('/course_select', function(req, res){
     var json = JSON.stringify([
         {id : 'CS1001', name : '数据结构', credit : 4, tname : '李晓鸿'},
         {id : 'CS1002', name : '计算机网络', credit : 4, tname : '王东'},
-        {id : 'CS1003', name : '算法设计', credit : 5, tname : '姜文君'}
+        {id : 'CS1003', name : '算法设计', credit : 5, tname : '姜文君'},
+        {id : 'CS1004', name : '操作系统', credit : 4, tname : '肖德贵'},
+        {id : 'CS1005', name : '操作系统', credit : 4, tname : '陈浩'}
+    ])
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+app.get('/course_view', function(req, res){
+    var json = JSON.stringify([
+        {id : 'CS1001', name : '数据结构', credit : 4, tname : '李晓鸿'},
+        {id : 'CS1002', name : '计算机网络', credit : 4, tname : '王东'},
+        {id : 'CS1003', name : '算法设计', credit : 5, tname : '姜文君'},
+        {id : 'CS1004', name : '操作系统', credit : 4, tname : '肖德贵'}
     ])
     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     res.end(json)
