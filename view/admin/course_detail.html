@@ -25,14 +25,14 @@
         <div class="layui-form" style="margin-top: 30px">
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">学号</label>
+                    <label class="layui-form-label">课程号</label>
                     <div class="layui-input-inline">
                         <input type="text" v-model="id" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
                 <div class="layui-inline">
-                    <label class="layui-form-label">姓名</label>
+                    <label class="layui-form-label">课程名</label>
                     <div class="layui-input-inline">
                         <input type="text" v-model="name" autocomplete="off" class="layui-input">
                     </div>
@@ -41,22 +41,23 @@
 
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">性别</label>
+                    <label class="layui-form-label">学分</label>
                     <div class="layui-input-inline">
-                        <div class="layui-input-inline">
-                            <select v-model="sex" lay-filter="sex">
-                                <option value="0" selected="">请选择</option>
-                                <option value="1">男</option>
-                                <option value="-1">女</option>
-                            </select>
-                        </div>
+                        <input type="text" v-model="credit" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
                 <div class="layui-inline">
-                    <label class="layui-form-label">专业</label>
+                    <label class="layui-form-label">授课教师</label>
                     <div class="layui-input-inline">
-                        <input type="text" v-model="major" autocomplete="off" class="layui-input">
+                        <div class="layui-input-inline">
+                            <select v-model="tid" lay-filter="tid">
+                                <option selected="">请选择</option>
+                                <option v-for="teacher in teachers" v-bind:value="teacher.id">
+                                    {{teacher.name}}
+                                </option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -75,15 +76,16 @@
         data: {
             id : '',
             name : '',
-            sex : '',
-            major: ''
+            credit: '',
+            tid: '',
+            teachers: []
         }, methods:{
             comfirm: function (index) {
-                axios.post('/admin/save_student', {
+                axios.post('/admin/save_teacher', {
                     id: this.id,
                     name: this.name,
-                    sex: this.sex,
-                    major: this.major
+                    credit: this.credit,
+                    tid: this.tid
                 })
                 .then(function (res) {
                     if (res.data.responseCode == 200) {
@@ -103,16 +105,11 @@
         }
     })
 
-    axios.get('/admin/get_student_info')
+    axios.get('/admin/teacher_list')
     .then(function (res) {
         if (res.data.responseCode == 200) {
-            var data = res.data
-            if (data.hasOwnProperty('resultSet')) {
-                n.id = data.id
-                n.name = data.name
-                n.sex = data.sex
-                n.major = data.major
-            }
+            n.teachers = res.data.resultSet
+            
         }
     })
     .catch(function (res) {
@@ -122,9 +119,4 @@
 </script>
 <script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
 
-<script type="text/javascript">
-    $('dd').click(function(){
-        n.sex = $(this).attr('lay-value');
-    })
-</script>
 </body>

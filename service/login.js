@@ -2,7 +2,7 @@
 
 var conn = require('../database/connector')
 // 加密模块crypto
-var encrypt = require('./encrypt')
+var encrypt = require('../util/encrypt')
 
 //登陆操作
 //测试网址：http://127.0.0.1:8000/Login/login.js?name=S101&pass=333333&ty=1
@@ -60,7 +60,7 @@ var encrypt = require('./encrypt')
 //     })
 // }
 
-exports.login = function(req, res) {
+exports.login = function(req, res, cop) {
     // res.setHeader('Content-Type','text/json;charset=UTF-8')
     var userType = req.body.userType
     var username = req.body.username
@@ -99,11 +99,10 @@ exports.login = function(req, res) {
         }
         else if(userType == 0){//管理员
             console.log('admin')
-            console.log(username)
+            console.log('username: ' + username)
             if(username == 'admin'){//默认管理员账号admin
                 var sql = 'select distinct pass from user  where uid = 1;'
-                console.log('admin_sql')
-                console.log(sql)
+                console.log('admin_sql: ' + sql)
             }
         }
         else{
@@ -113,12 +112,10 @@ exports.login = function(req, res) {
             }
             return res.end(JSON.stringify(json1))
         }
-         console.log('sql')
-         console.log(sql)
+        console.log('sql：' + sql)
         //查询密码
         conn.query(sql, function(data){
-            console.log("data") 
-            console.log(data)
+            console.log("data: " + data) 
             //默认返回100
             if(data[0] == null){ //返回状态为100，表示查询结果为空
                 var json2 = {
@@ -126,8 +123,7 @@ exports.login = function(req, res) {
                     responseMsg : "id not exit",
                     url: url
                 }
-                
-                res.end(JSON.stringify(json2))
+                return res.end(JSON.stringify(json2))
             }
             //返回状态200，表示密码正确
             else if(data[0].pass == password){
@@ -135,10 +131,11 @@ exports.login = function(req, res) {
                     responseCode:200,
                     responseMsg:"登陆成功",
                     url: url
-
                 }
-                
-                res.end(JSON.stringify(json3))
+                // 添加cookie
+                cop.append('id', username)
+                cop.append('userType', userType)
+                return res.end(JSON.stringify(json3))
             }
             //返回状态300，表示密码错误
             else{
@@ -148,17 +145,16 @@ exports.login = function(req, res) {
                     url: url
                 }
                 
-                res.end(JSON.stringify(json4))
+                return res.end(JSON.stringify(json4))
             }
         })
-        //设置cookie
-        var id = username;
-        var data = {
-            id : 5, 
-            userType: 1
-        }
-        const hash = encrypt.encrypt(JSON.stringify(data));
-        res.cookie('account', {data: data, hash : hash}, { maxAge: 9000000, httpOnly: true });
+        // //设置cookie
+        // var data = {
+        //     id : username, 
+        //     userType: userType
+        // }
+        // const hash = encrypt.encrypt(JSON.stringify(data));
+        // res.cookie('account', {data: data, hash : hash}, { maxAge: 9000000, httpOnly: true });
     //    res.end(JSON.stringify(json))
     } else {
         // userType不存在或者为空串
@@ -166,28 +162,6 @@ exports.login = function(req, res) {
             responseCode: 500,
             responseMsg: '未选择用户类型',
         }
-        res.end(JSON.stringify(json))
-    }
-}
-
-exports.validLogin = function(req, res) {
-    if (req.cookies.account) {
-        // 获取指定的cookie
-        var account = req.cookies.account
-        // 获取数据部分
-        var data = account.data
-        // 获取校验的哈希值
-        var hash = account.hash
-        if (hash == encrypt.encrypt(JSON.stringify(data))) {
-            // 哈希校验通过
-            return data
-        } else {
-            // 哈希校验失败
-            return false
-        }
-    } 
-    else {
-        // 没有指定的cookie
-        return false
+        return res.end(JSON.stringify(json))
     }
 }

@@ -48,7 +48,7 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
                     <td>{{row.name}}</td>
                     <td>{{row.credit}}</td>
                     <td>{{row.tname}}</td>
-                    <td><button @click="reload" class="layui-btn layui-btn-xs layui-btn-normal" style="width:100px;">退课</button></td>
+                    <td><button @click="drop(row.id)" class="layui-btn layui-btn-xs layui-btn-normal" style="width:100px;">退课</button></td>
                 </tr>
                
                 </tbody>
@@ -60,10 +60,23 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
     var app = new Vue({
         el: '#app',
         data: {
-            rows : {}
+            rows : []
         }, methods:{
-            reload: function (event) {
-                location.reload()
+            drop: function (cid) {
+                axios.post('/student/drop_course',{
+                    cid: cid
+                })
+                .then(function (res) {
+                    if (res.data.responseCode == 200) {
+                        layer.msg('操作成功', {icon: 1, time: 500})
+                    } else {
+                        layer.alert(res.data.responseMsg, {icon: 2})
+                    }
+                })
+                .catch(function (res) {
+                    console.log(res);
+                });
+           
             }
         }
     })

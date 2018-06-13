@@ -40,10 +40,9 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
             </colgroup>
             <thead>
                 <tr>
-                    <th>学号</th>
+                    <th>工号</th>
                     <th>姓名</th>
-                    <th>性别</th>
-                    <th>专业</th>
+                    <th>院系</th>
                     <th>操作</th>
                 </tr> 
             </thead>
@@ -51,8 +50,7 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
             <tr v-for="row in rows">
                 <td>{{row.id}}</td>
                 <td>{{row.name}}</td>
-                <td>{{row.sex}}</td>
-                <td>{{row.major}}</td>
+                <td>{{row.dept}}</td>
                 <td>
                     <!-- <button class="layui-btn layui-btn-xs layui-btn-normal" style="width:60px;">修改</button> -->
                     <button @click="reload" class="layui-btn layui-btn-xs layui-btn-danger" style="width:60px;">删除</button>
@@ -76,19 +74,7 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
                 layer.open({
                     type: 2, 
                     area: ['662px', '322px'],
-                    content: '/admin/student_detail.html' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
-                    // btn: ['确定', '取消'],
-                    // yes: function(params) {
-                    //     alert("HELLO")
-                    // }
-                }); 
-            },
-            update: function(sid) {
-                axios.post('/admin/save_sid', sid)
-                layer.open({
-                    type: 2, 
-                    area: ['662px', '322px'],
-                    content: '/admin/student_detail.html' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    content: '/admin/teacher_detail.html' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
                     // btn: ['确定', '取消'],
                     // yes: function(params) {
                     //     alert("HELLO")
@@ -98,7 +84,7 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
         }
     })
 
-    axios.get('/admin/student_list')
+    axios.get('/admin/teacher_list')
     .then(function (res) {
         if (res.data.responseCode == 200) {
            app.rows = res.data.resultSet 

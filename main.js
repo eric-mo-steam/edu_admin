@@ -5,23 +5,50 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
 
-var encrypt = require('./service/encrypt')
 var login = require('./service/login')
+var CookieOp = require('./util/cookieOp')
 
+var cop = new CookieOp()
 var app = express()
 
 // public下可放置图片资源文件
 app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
-app.use(cookieParser());
+app.use(cookieParser("abg146"));
 
 app.get('*', function (req, res, next) {
-    // 先用cookie验证登录
-    var cookie = login.validLogin(req, res)
-    if (cookie) {   // cookie正常
+    console.log('Acess: ' + req.url)
+    // 将请求和响应传给cookie操作对象
+    cop.set(req, res)
+    // 先用验证cookie是否有效
+    if (cop.validCookies() || req.url === '/login'){
+        // 有效，则传递给下一个路由
+        console.log("有效")
         next();
-    } else {        // cookie不存在或者异常
+    } else {  // cookie不存在或者异常
+        console.log("无效")
+        var regx = /^.*\.html$/
+        if (regx.test(req.url)) {
+            // 请求的是页面，返回首页
+            home(req, res)
+        } else {
+            // 请求的是数据，返回提示登录失效的json
+            unlogin(req, res)
+        }
+    }
+})
+
+app.post('*', function (req, res, next) {
+    console.log('Acess: ' + req.url)
+    // 将请求和响应传给cookie操作对象
+    cop.set(req, res)
+    console.log(cop.getCookies())
+    // 先用验证cookie是否有效
+    if (cop.validCookies() || req.url === '/login'){
+        // 有效，则传递给下一个路由
+        next();
+    } else {  // cookie不存在或者异常
         var regx = /^.*\.html$/
         if (regx.test(req.url)) {
             // 请求的是页面，返回首页
@@ -43,8 +70,10 @@ app.get('/*.html', function (req, res) {
 })
 
 app.post('/login', function(req, res) {
+    // 将请求和响应传给cookie操作对象
+    cop.set(req, res)
     var service = require('./service/login')
-    service.login(req, res)
+    service.login(req, res, cop)
 })
 
 // // 数据请求
@@ -59,7 +88,7 @@ app.post('/login', function(req, res) {
 //     service.course(req, res)
 // })
 
-app.get('/data', function(req, res) {
+app.get('/teacher/course_grade_list', function(req, res) {
     var json = JSON.stringify([
         {rank : 1,id : 101, name : '张三',  sex : '男', major : '计算机科学与技术', grade : 91,cid :'CS1001'},
         {rank : 2,id : 102, name : '李四', sex : '男', major : '物联网工程', grade : 90,cid :'CS1001'},
@@ -67,6 +96,15 @@ app.get('/data', function(req, res) {
         {rank : 4,id : 104, name : '丽君', sex : '女', major : '软件工程', grade : 79,cid :'CS1001'},
         {rank : 5,id : 105, name : '宋梅', sex : '女', major : '通信工程', grade : 68,cid :'CS1001'},
     ])
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+app.post('/teacher/update_grade', function(req, res) {
+    console.log(req.body) // 成绩名单
+    var json = JSON.stringify({
+        responseCode: 200
+    })
     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     res.end(json)
 })
@@ -115,9 +153,10 @@ app.get('/student/personal_info', function(req, res) {
 //返回学生未选课情况
 //我修改了-并且成功了-许飞（这条注释可删）
 app.get('/student/course_unselected_list', function(req, res){
-    var cookie = login.validLogin(req, res)
+    // 将请求和响应传给cookie操作对象
+    cop.set(req, res)
     var service = require('./service/course')
-    service.su_course(req, res,cookie)
+    service.su_course(req, res, cop.getCookies())
     //测试用例
     // var json = JSON.stringify({
     //     responseCode: 200, 
@@ -135,9 +174,10 @@ app.get('/student/course_unselected_list', function(req, res){
 })
 //返回学生已选课情况
 app.get('/student/course_selected_list', function(req, res){
-    var cookie = login.validLogin(req, res)
+    // 将请求和响应传给cookie操作对象
+    cop.set(req, res)
     var service = require('./service/course')
-    service.s_course(req, res,cookie)
+    service.s_course(req, res, cop.getCookies())
     // var json = JSON.stringify({
     //     responseCode: 200, 
     //     resultSet : [
@@ -151,6 +191,20 @@ app.get('/student/course_selected_list', function(req, res){
     // res.end(json)
 })
 
+app.post('/student/drop_course', function(req, res){
+    cop.set(req, res)
+    var service = require('./service/student')
+    var cookies = cop.getCookies()
+
+    console.log(req.body.cid)   // 退选的课程号
+
+    var json = JSON.stringify({
+        responseCode: 200, 
+    })
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
 app.get('/student/course_grade_list', function(req, res){
     var json = JSON.stringify({
         responseCode: 200, 
@@ -160,6 +214,102 @@ app.get('/student/course_grade_list', function(req, res){
             {id : 'CS1003', name : '算法设计', credit : 5, tname : '姜文君', grade : 78},
             {id : 'CS1004', name : '操作系统', credit : 4, tname : '肖德贵', grade : 91}
         ]
+    })
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+app.get('/admin/student_list', function(req, res){
+    var json = JSON.stringify({
+        responseCode: 200, 
+        resultSet : [
+            {id : 'S101', name : '张三', sex : '男', major: '计算机科学与技术'},
+            {id : 'S102', name : '李四', sex : '男', major: '计算机科学与技术'},
+            {id : 'S103', name : '王五', sex : '男', major: '计算机科学与技术'}
+        ]
+    })
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+// app.get('/admin/get_student_info', function(req, res) {
+//     cop.set(req, res)
+//     var cookies = cop.getCookies()
+//     var json = JSON.parse(JSON.stringify(cookies))
+//     if (json.hasOwnProperty('sid')) {
+//         // 根据sid返回学生信息，没有则只返回responseCode
+//         console.log(json.sid)
+//     }
+//     var json = JSON.stringify({
+//         responseCode: 200,
+//         resultSet : {
+//             id : 'S101', 
+//             name : '张三', 
+//             sex : '男', 
+//             major: '计算机科学与技术'
+//         }
+//     })
+//     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+//     res.end(json)
+// })
+
+// app.post('/admin/save_sid', function(req, res) {
+//     cop.set(req, res)
+//     cop.append('sid', req.body.sid)
+// })
+
+app.post('/admin/save_student', function(req, res) {
+    cop.set(req, res)
+    console.log(req.body)
+    var json = JSON.stringify({
+        responseCode: 200
+    })
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+
+app.get('/admin/teacher_list', function(req, res){
+    var json = JSON.stringify({
+        responseCode: 200, 
+        resultSet : [
+            {id : 'T001', name : '张三', dept: '计算机科学系'},
+            {id : 'T002', name : '李四', dept: '计算机工程系'},
+            {id : 'T003', name : '王五', dept: '软件工程系'}
+        ]
+    })
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+app.post('/admin/save_teacher', function(req, res) {
+    cop.set(req, res)
+    console.log(req.body)
+    var json = JSON.stringify({
+        responseCode: 200
+    })
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+app.get('/admin/course_list', function(req, res){
+    var json = JSON.stringify({
+        responseCode: 200, 
+        resultSet : [
+            {id : 'CS001', name : '算法导论', credit: 4, tname: '姜文君'},
+            {id : 'CS001', name : '数据库原理', credit: 5, tname: '王伟胜'},
+            {id : 'CS001', name : '计算机网络', credit: 3, tname: '吴迪'}
+        ]
+    })
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+app.post('/admin/save_teacher', function(req, res) {
+    cop.set(req, res)
+    console.log(req.body)
+    var json = JSON.stringify({
+        responseCode: 200
     })
     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     res.end(json)

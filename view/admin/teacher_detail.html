@@ -25,7 +25,7 @@
         <div class="layui-form" style="margin-top: 30px">
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">学号</label>
+                    <label class="layui-form-label">工号</label>
                     <div class="layui-input-inline">
                         <input type="text" v-model="id" autocomplete="off" class="layui-input">
                     </div>
@@ -41,22 +41,9 @@
 
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">性别</label>
+                    <label class="layui-form-label">院系</label>
                     <div class="layui-input-inline">
-                        <div class="layui-input-inline">
-                            <select v-model="sex" lay-filter="sex">
-                                <option value="0" selected="">请选择</option>
-                                <option value="1">男</option>
-                                <option value="-1">女</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="layui-inline">
-                    <label class="layui-form-label">专业</label>
-                    <div class="layui-input-inline">
-                        <input type="text" v-model="major" autocomplete="off" class="layui-input">
+                        <input type="text" v-model="dept" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -75,15 +62,13 @@
         data: {
             id : '',
             name : '',
-            sex : '',
-            major: ''
+            dept: ''
         }, methods:{
             comfirm: function (index) {
-                axios.post('/admin/save_student', {
+                axios.post('/admin/save_teacher', {
                     id: this.id,
                     name: this.name,
-                    sex: this.sex,
-                    major: this.major
+                    dept: this.dept
                 })
                 .then(function (res) {
                     if (res.data.responseCode == 200) {
@@ -103,28 +88,7 @@
         }
     })
 
-    axios.get('/admin/get_student_info')
-    .then(function (res) {
-        if (res.data.responseCode == 200) {
-            var data = res.data
-            if (data.hasOwnProperty('resultSet')) {
-                n.id = data.id
-                n.name = data.name
-                n.sex = data.sex
-                n.major = data.major
-            }
-        }
-    })
-    .catch(function (res) {
-        console.log(res);
-    });
-
 </script>
 <script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
 
-<script type="text/javascript">
-    $('dd').click(function(){
-        n.sex = $(this).attr('lay-value');
-    })
-</script>
 </body>
