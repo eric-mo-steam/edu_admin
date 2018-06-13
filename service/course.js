@@ -7,7 +7,7 @@ exports.su_course = function(req,res,cookies){
    if (cookies) {
             var sql = "select course.id,course.name,course.credit,teacher.name  tname  \
                 from course,teacher where course.tid=teacher.id and course.id not in(\
-                select cid from SC where sid = '"+cookies.id+"');"
+                select cid from sc where sid = '"+cookies.id+"');"
                 console.log("c_sql"+sql)
                 conn.query(sql, function(data){
                     rSet=[]
@@ -43,7 +43,7 @@ exports.s_course = function(req,res,cookies){
    if (cookies) {
             var sql = "select course.id,course.name,course.credit,teacher.name  tname  \
                 from course,teacher where course.tid=teacher.id and course.id  in(\
-                select cid from SC where sid = '"+cookies.id+"');"
+                select cid from sc where sid = '"+cookies.id+"');"
                 console.log("c_sql"+sql)
                 conn.query(sql, function(data){
                     rSet=[]
