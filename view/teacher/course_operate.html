@@ -59,29 +59,32 @@ table.layui-table > tbody > tr > td > a {
 
 
     <script>
-            var app = new Vue({
-                    el: '#app',
-                    data: {
-                        rows : {}
-                    },
-                     methods:{
-                        reload: function (event) {
-                            location.reload()
-                        }
-                    }
-            })
-        
-            axios.get('/course_operate')
-            .then(function (res) {
-                app.rows = res.data
-                console.log(rows)
-                
-            })
-            .catch(function (res) {
-                console.log(res);
-            });
-        
-        </script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                rows : []
+            },
+            methods:{
+                reload: function (event) {
+                    location.reload()
+                }
+            }
+        })
+    
+        axios.get('/teacher/course_teach_list')
+        .then(function (res) {
+            if (res.data.responseCode == 200) {
+                app.rows = res.data.resultSet 
+            } else {
+                layer.alert(res.data.responseMsg, {icon: 2})
+            }
+            console.log(rows)     
+        })
+        .catch(function (res) {
+            console.log(res);
+        });
+    
+    </script>
 
     <script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
 </body>

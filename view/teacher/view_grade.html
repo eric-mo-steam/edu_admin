@@ -89,54 +89,51 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
     
 </div>
 
-    <script>
-        var app = new Vue({
-                el: '#app',
-                data: {
-                        rows : {},
-                        seen :false
-                }, methods:{
-                    reload: function (event) {
-                        location.reload()
-                    },
-                    changestate: function(event){
-                            this.seen=!this.seen;                      
-                    },
-                    modify: function (event) {
-                        //layer.alert('修改成功', {icon: 6});
-                        console.log('id: ' + this.id)
-                        console.log('cid: ' + this.cid)
-                        console.log('grade: ' + this.grade)
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+                rows : {},
+                seen :false
+        }, methods:{
+            reload: function (event) {
+                location.reload()
+            },
+            changestate: function(event){
+                this.seen=!this.seen;                      
+            },
+            modify: function (event) {
+                //layer.alert('修改成功', {icon: 6});
+                console.log('id: ' + this.id)
+                console.log('cid: ' + this.cid)
+                console.log('grade: ' + this.grade)
 
-                        axios.post('/modify', {
-                            id: this.id,
-                            cid: this.cid,
-                            grade: this.grade
-                        })
-                        .then(function (res) {
-                                layer.alert('修改成功', {icon: 6});
-                        })
-                        .catch(function (res) {
-                            console.log(res);
-                        });
-                    },
-                }
-        })
-    
-        axios.get('/data')
-        .then(function (res) {
-            app.rows = res.data
-            console.log(rows)
-            
-        })
-        .catch(function (res) {
-            console.log(res);
-        });
-    
-    </script>
+                axios.post('/modify', {
+                    id: this.id,
+                    cid: this.cid,
+                    grade: this.grade
+                })
+                .then(function (res) {
+                        layer.alert('修改成功', {icon: 6});
+                })
+                .catch(function (res) {
+                    console.log(res);
+                });
+            },
+        }
+    })
+
+    axios.get('/data')
+    .then(function (res) {
+        app.rows = res.data
+        console.log(rows)
+        
+    })
+    .catch(function (res) {
+        console.log(res);
+    });
+
+</script>
 
 <script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
-<script type="text/javascript">
-   
-</script>
 </body>

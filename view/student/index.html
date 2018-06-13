@@ -61,17 +61,42 @@ ul.layui-nav {
    <iframe id="main-frame" name="main-frame" width="101%" height="100%" src="" seamless></iframe>
 </div>
 
-<div class="layui-footer" style="left: 0">
-    <span style="padding-left: 15px">学生：[2015010101] 张晓明</span>
+<div id="app" class="layui-footer" style="left: 0">
+    <span style="padding-left: 15px">学生：[{{id}}] {{name}}</span>
     <span class="layui-layout-right" style="padding-right: 15px">Copyright&nbsp;@&nbsp;2018&nbsp;CS1505&nbsp;Group 4&nbsp;&nbsp;&nbsp;ALL&nbsp;&nbsp;RIGHTS&nbsp;RESERVER</span>
 </div>
 
 
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            id : '',
+            name : ''
+        }, methods:{
+            reload: function (event) {
+                location.reload()
+            }
+        }
+    })
 
+    axios.get('/student/personal_info')
+    .then(function (res) {
+        console.log(res.data)
+        if (res.data.responseCode == 200) {
+            app.id = res.data.resultSet.id
+            app.name = res.data.resultSet.name
+        } else {
+            layer.alert(res.data.responseMsg, {icon: 2})
+        }
+    })
+    .catch(function (res) {
+        console.log(res)
+    });
+    
+</script>
 
 <script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
-<script type="text/javascript">
 
-</script>
 </body>
 </html>

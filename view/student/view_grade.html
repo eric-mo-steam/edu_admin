@@ -22,66 +22,63 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
 </head>
 
 <body>  
-        <!-- <iframe width="101%" src="res/layui-v2.3.0/layui/css/layui.css" seamless></iframe> -->
-    <div class="main-body">
-        <div class="layui-form">
-            <table class="layui-table">
-                <colgroup>
-                <col width="150">
-                <col width="150">
-                <col width="200">
-                <col width="200">
-                <col width="200">
-                <col>
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>课程号</th>
-                        <th>课程名</th>
-                        <th>学分</th>
-                        <th>授课老师</th>
-                        <th>成绩</th>
-                    </tr> 
-                </thead>
-                <tbody>
+<div id="app" class="main-body">
+    <div class="layui-form">
+        <table class="layui-table">
+            <colgroup>
+            <col width="150">
+            <col width="150">
+            <col width="200">
+            <col width="200">
+            <col width="200">
+            <col>
+            </colgroup>
+            <thead>
                 <tr>
-                    <td>CS1001</td>
-                    <td>数据结构</td>
-                    <td>4</td>
-                    <td>李晓鸿</td>
-                    <td>90</td>
-                </tr>
-                <tr>
-                    <td>CS1002</td>
-                    <td>计算机网络</td>
-                    <td>4</td>
-                    <td>王东</td>
-                    <td>85</td>
-                </tr>
-                <tr>
-                    <td>CS1003</td>
-                    <td>算法设计</td>
-                    <td>5</td>
-                    <td>姜文君</td>
-                    <td>75</td>
-                </tr>
-                <tr>
-                    <td>CS1004</td>
-                    <td>操作系统</td>
-                    <td>4</td>
-                    <td>肖德贵</td>
-                    <td>60</td>
-                </tr>
-                <tr>
-                    <td>CS1005</td>
-                    <td>操作系统</td>
-                    <td>4</td>
-                    <td>陈浩</td>
-                    <td>98</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                    <th>课程号</th>
+                    <th>课程名</th>
+                    <th>学分</th>
+                    <th>授课老师</th>
+                    <th>成绩</th>
+                </tr> 
+            </thead>
+            <tbody>
+            <tr v-for="row in rows">
+                <td>{{row.id}}</td>
+                <td>{{row.name}}</td>
+                <td>{{row.credit}}</td>
+                <td>{{row.tname}}</td>
+                <td>{{row.grade}}</td>
+            </tr> 
+            </tbody>
+        </table>
     </div>
-    <script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            rows : []
+        }, methods:{
+            reload: function (event) {
+                location.reload()
+            }
+        }
+    })
+
+    axios.get('/student/course_grade_list')
+    .then(function (res) {
+        if (res.data.responseCode == 200) {
+           app.rows = res.data.resultSet 
+        } else {
+            layer.alert(res.data.responseMsg, {icon: 2})
+        }
+        console.log(rows)
+    })
+    .catch(function (res) {
+        console.log(res);
+    });
+</script>
+<script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
 </body>

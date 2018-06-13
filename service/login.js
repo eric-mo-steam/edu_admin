@@ -158,7 +158,7 @@ exports.login = function(req, res) {
             userType: 1
         }
         const hash = encrypt.encrypt(JSON.stringify(data));
-        res.cookie('account', {data: data, hash : hash}, { maxAge: 90000, httpOnly: true });
+        res.cookie('account', {data: data, hash : hash}, { maxAge: 9000000, httpOnly: true });
     //    res.end(JSON.stringify(json))
     } else {
         // userType不存在或者为空串

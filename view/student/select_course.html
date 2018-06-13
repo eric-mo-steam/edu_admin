@@ -67,11 +67,14 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
             }
     })
 
-    axios.get('/course_select')
+    axios.get('/student/course_unselected_list')
     .then(function (res) {
-        app.rows = res.data
+        if (res.data.responseCode == 200) {
+           app.rows = res.data.resultSet 
+        } else {
+            layer.alert(res.data.responseMsg, {icon: 2})
+        }
         console.log(rows)
-        
     })
     .catch(function (res) {
         console.log(res);
