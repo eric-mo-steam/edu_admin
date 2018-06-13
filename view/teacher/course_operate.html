@@ -27,7 +27,7 @@ table.layui-table > tbody > tr > td > a {
 </head>
 
 <body>  
-    <div class="main-body">
+    <div id="app" class="main-body">
         <div class="layui-form">
             <table class="layui-table">
                 <colgroup>
@@ -46,39 +46,42 @@ table.layui-table > tbody > tr > td > a {
                     </tr> 
                 </thead>
                 <tbody>
-                <tr>
-                    <td>CS1001</td>
-                    <td>数据结构</td>
-                    <td>4</td>
-                    <td><a href="/teacher/view_grade.html">查看</a></td>
-                </tr>
-                <tr>
-                    <td>CS1002</td>
-                    <td>计算机网络</td>
-                    <td>4</td>
-                    <td><a>查看</a></td>
-                </tr>
-                <tr>
-                    <td>CS1003</td>
-                    <td>算法设计</td>
-                    <td>5</td>
-                    <td><a>查看</a></td>
-                </tr>
-                <tr>
-                    <td>CS1004</td>
-                    <td>操作系统</td>
-                    <td>4</td>
-                    <td><a>查看</a></td>
-                </tr>
-                <tr>
-                    <td>CS1005</td>
-                    <td>操作系统</td>
-                    <td>4</td>
-                    <td><a>查看</a></td>
-                </tr>
+                    <tr v-for="row in rows">
+                            <td>{{row.id}}</td>
+                            <td>{{row.name}}</td>
+                            <td>{{row.credit}}</td>
+                            <td><a href="/teacher/view_grade.html">查看</a></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
+
+
+    <script>
+            var app = new Vue({
+                    el: '#app',
+                    data: {
+                        rows : {}
+                    },
+                     methods:{
+                        reload: function (event) {
+                            location.reload()
+                        }
+                    }
+            })
+        
+            axios.get('/course_operate')
+            .then(function (res) {
+                app.rows = res.data
+                console.log(rows)
+                
+            })
+            .catch(function (res) {
+                console.log(res);
+            });
+        
+        </script>
+
     <script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
 </body>
