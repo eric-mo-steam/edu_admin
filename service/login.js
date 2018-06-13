@@ -1,5 +1,6 @@
-// 数据库mysql连接器
-// var conn = require('../database/connector')
+// 数据库mysql连接
+
+var conn = require('../database/connector')
 // 加密模块crypto
 var encrypt = require('./encrypt')
 
@@ -60,7 +61,7 @@ var encrypt = require('./encrypt')
 // }
 
 exports.login = function(req, res) {
-    res.setHeader('Content-Type','text/json;charset=UTF-8')
+    // res.setHeader('Content-Type','text/json;charset=UTF-8')
     var userType = req.body.userType
     var username = req.body.username
     var password = req.body.password
@@ -88,19 +89,19 @@ exports.login = function(req, res) {
         }
         //开始验证密码
         //设置查询密码的sql语句
-        if(userType==1){//学生
+        if(userType == 1){//学生
             var sql = "select distinct pass from user,student \
-                    where student.uid=user.uid and student.id='"+username+"';"
+                    where student.uid=user.uid and student.id='" + username + "';"
         }
-        else if(userType==2){//老师
+        else if(userType == 2){//老师
             var sql = "select distinct pass from user,teacher \
-            where teacher.uid=user.uid and teacher.id='"+username+"';"
+            where teacher.uid=user.uid and teacher.id='" + username + "';"
         }
-        else if(userType==0){//管理员
+        else if(userType == 0){//管理员
             console.log('admin')
             console.log(username)
-            if(username=='admin'){//默认管理员账号admin
-                var sql = 'select distinct pass from user  where uid =1;'
+            if(username == 'admin'){//默认管理员账号admin
+                var sql = 'select distinct pass from user  where uid = 1;'
                 console.log('admin_sql')
                 console.log(sql)
             }
@@ -119,7 +120,7 @@ exports.login = function(req, res) {
             console.log("data") 
             console.log(data)
             //默认返回100
-            if(data[0]==null){//返回状态为100，表示查询结果为空
+            if(data[0] == null){ //返回状态为100，表示查询结果为空
                 var json2 = {
                     responseCode:100,
                     responseMsg : "id not exit",
@@ -129,11 +130,12 @@ exports.login = function(req, res) {
                 res.end(JSON.stringify(json2))
             }
             //返回状态200，表示密码正确
-            else if(data[0].pass==password){
+            else if(data[0].pass == password){
                 var json3 = {
                     responseCode:200,
                     responseMsg:"登陆成功",
                     url: url
+
                 }
                 
                 res.end(JSON.stringify(json3))
