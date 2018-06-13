@@ -61,7 +61,7 @@ var encrypt = require('./encrypt')
 // }
 
 exports.login = function(req, res) {
-    res.setHeader('Content-Type','text/json;charset=UTF-8')
+    // res.setHeader('Content-Type','text/json;charset=UTF-8')
     var userType = req.body.userType
     var username = req.body.username
     var password = req.body.password
@@ -135,6 +135,7 @@ exports.login = function(req, res) {
                     responseCode:200,
                     responseMsg:"登陆成功",
                     url: url
+
                 }
                 
                 res.end(JSON.stringify(json3))
