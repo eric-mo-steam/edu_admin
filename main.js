@@ -47,17 +47,17 @@ app.post('/login', function(req, res) {
     service.login(req, res)
 })
 
-// 数据请求
-app.get('/student/*', function (req, res) {
-    var service = require('./service/student')
-    service.getGrade(req, res)
-})
+// // 数据请求
+// app.get('/student/*', function (req, res) {
+//     var service = require('./service/student')
+//     service.getGrade(req, res)
+// })
 
-//课程信息
-app.get('/course/*', function (req, res) {
-    var service = require('./service/course')
-    service.course(req, res)
-})
+// //课程信息
+// app.get('/course/*', function (req, res) {
+//     var service = require('./service/course')
+//     service.course(req, res)
+// })
 
 app.get('/data', function(req, res) {
     var json = JSON.stringify([
@@ -71,37 +71,87 @@ app.get('/data', function(req, res) {
     res.end(json)
 })
 
-app.get('/course_select', function(req, res){
-    var json = JSON.stringify([
-        {id : 'CS1001', name : '数据结构', credit : 4, tname : '李晓鸿'},
-        {id : 'CS1002', name : '计算机网络', credit : 4, tname : '王东'},
-        {id : 'CS1003', name : '算法设计', credit : 5, tname : '姜文君'},
-        {id : 'CS1004', name : '操作系统', credit : 4, tname : '肖德贵'},
-        {id : 'CS1005', name : '操作系统', credit : 4, tname : '陈浩'}
-    ])
+app.get('/teacher/course_teach_list', function(req, res){
+    var json = JSON.stringify({
+        responseCode: 200, 
+        resultSet : [
+            {id : 'CS1001', name : '数据结构', credit : 4},
+            {id : 'CS1002', name : '计算机网络', credit : 4},
+            {id : 'CS1003', name : '算法设计', credit : 5},
+            {id : 'CS1004', name : '人工智能', credit : 4},
+            {id : 'CS1005', name : '操作系统', credit : 4}
+        ]
+    })
     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     res.end(json)
 })
 
-app.get('/course_operate', function(req, res){
-    var json = JSON.stringify([
-        {id : 'CS1001', name : '数据结构', credit : 4},
-        {id : 'CS1002', name : '计算机网络', credit : 4},
-        {id : 'CS1003', name : '算法设计', credit : 5},
-        {id : 'CS1004', name : '人工智能', credit : 4},
-        {id : 'CS1005', name : '操作系统', credit : 4}
-    ])
+
+app.get('/teacher/personal_info', function(req, res) {
+    var json = JSON.stringify({
+        responseCode: 200, 
+        resultSet : {
+            id : 'T001',
+            name : '王伟胜'
+        }
+    })
     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     res.end(json)
 })
 
-app.get('/course_view', function(req, res){
-    var json = JSON.stringify([
-        {id : 'CS1001', name : '数据结构', credit : 4, tname : '李晓鸿'},
-        {id : 'CS1002', name : '计算机网络', credit : 4, tname : '王东'},
-        {id : 'CS1003', name : '算法设计', credit : 5, tname : '姜文君'},
-        {id : 'CS1004', name : '操作系统', credit : 4, tname : '肖德贵'}
-    ])
+
+
+app.get('/student/personal_info', function(req, res) {
+    var json = JSON.stringify({
+        responseCode: 200, 
+        resultSet : {
+            id : 'S101',
+            name : '张三'
+        }
+    })
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+app.get('/student/course_unselected_list', function(req, res){
+    var json = JSON.stringify({
+        responseCode: 200, 
+        resultSet : [
+            {id : 'CS1001', name : '数据结构', credit : 4, tname : '李晓鸿'},
+            {id : 'CS1002', name : '计算机网络', credit : 4, tname : '王东'},
+            {id : 'CS1003', name : '算法设计', credit : 5, tname : '姜文君'},
+            {id : 'CS1004', name : '操作系统', credit : 4, tname : '肖德贵'},
+            {id : 'CS1005', name : '操作系统', credit : 4, tname : '陈浩'}
+        ]
+    })
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+app.get('/student/course_selected_list', function(req, res){
+    var json = JSON.stringify({
+        responseCode: 200, 
+        resultSet : [
+            {id : 'CS1001', name : '数据结构', credit : 4, tname : '李晓鸿'},
+            {id : 'CS1002', name : '计算机网络', credit : 4, tname : '王东'},
+            {id : 'CS1003', name : '算法设计', credit : 5, tname : '姜文君'},
+            {id : 'CS1004', name : '操作系统', credit : 4, tname : '肖德贵'}
+        ]
+    })
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+app.get('/student/course_grade_list', function(req, res){
+    var json = JSON.stringify({
+        responseCode: 200, 
+        resultSet : [
+            {id : 'CS1001', name : '数据结构', credit : 4, tname : '李晓鸿', grade : 90},
+            {id : 'CS1002', name : '计算机网络', credit : 4, tname : '王东', grade : 89},
+            {id : 'CS1003', name : '算法设计', credit : 5, tname : '姜文君', grade : 78},
+            {id : 'CS1004', name : '操作系统', credit : 4, tname : '肖德贵', grade : 91}
+        ]
+    })
     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     res.end(json)
 })

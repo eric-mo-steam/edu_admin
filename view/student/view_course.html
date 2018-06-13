@@ -22,7 +22,6 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
 </head>
 
 <body>  
-        <!-- <iframe width="101%" src="res/layui-v2.3.0/layui/css/layui.css" seamless></iframe> -->
     <div id="app" class="main-body">
         <div class="layui-form">
             <table class="layui-table">
@@ -59,21 +58,24 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
 
 <script>
     var app = new Vue({
-            el: '#app',
-            data: {
-                rows : {}
-            }, methods:{
-                reload: function (event) {
-                    location.reload()
-                }
+        el: '#app',
+        data: {
+            rows : {}
+        }, methods:{
+            reload: function (event) {
+                location.reload()
             }
+        }
     })
 
-    axios.get('/course_view')
+    axios.get('/student/course_selected_list')
     .then(function (res) {
-        app.rows = res.data
+        if (res.data.responseCode == 200) {
+           app.rows = res.data.resultSet 
+        } else {
+            layer.alert(res.data.responseMsg, {icon: 2})
+        }
         console.log(rows)
-        
     })
     .catch(function (res) {
         console.log(res);
