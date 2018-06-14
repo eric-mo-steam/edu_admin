@@ -48,18 +48,20 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
                 </tr> 
             </thead>
             <tbody>
-            <tr v-for="row in rows">
-                <td>{{row.id}}</td>
-                <td>{{row.name}}</td>
-                <td>{{row.sex}}</td>
-                <td>{{row.major}}</td>
-                <td>
-                    <!-- <button class="layui-btn layui-btn-xs layui-btn-normal" style="width:60px;">修改</button> -->
-                    <button @click="delete(row.id)" class="layui-btn layui-btn-xs layui-btn-danger" style="width:60px;">删除</button>
-                </td>
-            </tr>
+                <tr v-for="row in rows">
+                    <td>{{row.id}}</td>
+                    <td>{{row.name}}</td>
+                    <td>{{row.sex}}</td>
+                    <td>{{row.major}}</td>
+                    <td>
+                        <!-- <button class="layui-btn layui-btn-xs layui-btn-normal" style="width:60px;">修改</button> -->
+                        <button @click="remove(row.id)" class="layui-btn layui-btn-xs layui-btn-danger" style="width:100px;">删除</button>
+                    </td>
+                </tr>
+                
             </tbody>
         </table>
+        <!-- <button @click="delete()" class="layui-btn layui-btn-xs layui-btn-danger" style="width:60px;">删除</button> -->
     </div>
 </div>
 
@@ -69,8 +71,8 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
         data: {
             rows : []
         }, methods:{
-            delete: function (sid) {
-                axios.post('/admin/delete_student',{sid: sid})
+            remove: function(sid) {
+                axios.post('/admin/delete_student', {sid: sid})
                 .then(function (res) {
                     if (res.data.responseCode == 200) {
                         layer.msg('操作成功', {icon: 1, time: 500})
@@ -126,3 +128,4 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
 
 <script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
 </body>
+</html>

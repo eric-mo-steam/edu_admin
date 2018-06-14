@@ -57,7 +57,7 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
                 <td><a href="/admin/view_student.html">查看</a></td>
                 <td>
                     <!-- <button class="layui-btn layui-btn-xs layui-btn-normal" style="width:60px;">修改</button> -->
-                    <button @click="delete(row.id)" class="layui-btn layui-btn-xs layui-btn-danger" style="width:60px;">删除</button>
+                    <button @click="remove(row.id)" class="layui-btn layui-btn-xs layui-btn-danger" style="width:100px;">删除</button>
                 </td>
             </tr>
             </tbody>
@@ -85,7 +85,8 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
                     // }
                 }); 
             },
-            delete: function (cid){
+            remove: function (cid){
+                console.log(cid)
                 axios.post('/admin/delete_course',{cid: cid})
                 .then(function (res) {
                     if (res.data.responseCode == 200) {
@@ -119,3 +120,4 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
 
 <script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
 </body>
+</html>
