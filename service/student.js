@@ -92,8 +92,8 @@ exports.course_grade_list = function(req,res,cookies){
     console.log("cookies"+cookies.id)
    if (cookies) {
         var sql = "SELECT cid,course.name,credit,teacher.`name` tname,grade from sc,course,teacher \
-                    where cid in(select cid from sc where sid='S101') and \
-                    cid = course.id and course.tid=teacher.id and sid ='S101';"
+                    where cid in(select cid from sc where sid='"+cookies.id+"') and \
+                    cid = course.id and course.tid=teacher.id and sid ='"+cookies.id+"';"
         console.log("sg_sql"+sql)
         conn.query(sql, function(data){
             rSet=[]
