@@ -57,7 +57,7 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
                 <td><a href="/admin/view_student.html">查看</a></td>
                 <td>
                     <!-- <button class="layui-btn layui-btn-xs layui-btn-normal" style="width:60px;">修改</button> -->
-                    <button @click="reload" class="layui-btn layui-btn-xs layui-btn-danger" style="width:60px;">删除</button>
+                    <button @click="delete(row.id)" class="layui-btn layui-btn-xs layui-btn-danger" style="width:60px;">删除</button>
                 </td>
             </tr>
             </tbody>
@@ -84,6 +84,20 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
                     //     alert("HELLO")
                     // }
                 }); 
+            },
+            delete: function (cid){
+                axios.post('/admin/delete_course',{cid: cid})
+                .then(function (res) {
+                    if (res.data.responseCode == 200) {
+                        layer.msg('操作成功', {icon: 1, time: 500})
+                    } else {
+                        layer.alert(res.data.responseMsg, {icon: 2})
+                    }
+                    console.log(app.rows)
+                })
+                .catch(function (res) {
+                    console.log(res);
+                });
             }
         }
     })
@@ -91,7 +105,7 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
     axios.get('/admin/course_list')
     .then(function (res) {
         if (res.data.responseCode == 200) {
-           app.rows = res.data.resultSet 
+            app.rows = res.data.resultSet
         } else {
             layer.alert(res.data.responseMsg, {icon: 2})
         }

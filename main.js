@@ -90,6 +90,8 @@ app.post('/login', function(req, res) {
 //这里有一个问题传入参数有课程号吗？
 app.get('/teacher/course_grade_list', function(req, res) {
     cop.set(req, res)
+    var cookies = cop.getCookies()
+    console.log(cookies.cid)    // 课程id
     var service = require('./service/teacher')
     service.course_grade_list(req, res, cop.getCookies())
  //   var json = JSON.stringify([
@@ -154,6 +156,12 @@ app.get('/teacher/personal_info', function(req, res) {
 })
 
 
+app.post('/teacher/save_course_id', function(req, res) {
+    cop.set(req, res)
+    cop.append('cid', cid)
+    res.end()
+})
+
 //修改完成
 //学生个人信息
 app.get('/student/personal_info', function(req, res) {   
@@ -193,6 +201,19 @@ app.get('/student/course_unselected_list', function(req, res){
     //    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     // res.end(json)
 })
+
+app.post('/student/select_course', function(req, res){
+    // 将请求和响应传给cookie操作对象
+    cop.set(req, res)
+    var cookies = cop.getCookies()
+    console.log(req.body.cid)
+    var json = JSON.stringify({
+        responseCode: 200
+    })
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
 //返回学生已选课情况
 app.get('/student/course_selected_list', function(req, res){
     // 将请求和响应传给cookie操作对象
@@ -226,6 +247,9 @@ app.post('/student/drop_course', function(req, res){
 })
 //这个还有点问题
 app.get('/student/course_grade_list', function(req, res){
+    cop.set(req, res)
+    var cookies = cop.getCookies()
+    console.log(cookies.id)    // 根据学生id
     var json = JSON.stringify({
         responseCode: 200, 
         resultSet : [
@@ -287,6 +311,13 @@ app.post('/admin/save_student', function(req, res) {
 })
 
 
+app.post('/admin/delete_student', function(req, res) {
+    console.log(req.body.sid)   // 课程id
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+
 app.get('/admin/teacher_list', function(req, res){
     var json = JSON.stringify({
         responseCode: 200, 
@@ -310,6 +341,12 @@ app.post('/admin/save_teacher', function(req, res) {
     res.end(json)
 })
 
+app.post('/admin/delete_teacher', function(req, res) {
+    console.log(req.body.tid)   // 课程id
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
 app.get('/admin/course_list', function(req, res){
     var json = JSON.stringify({
         responseCode: 200, 
@@ -319,6 +356,22 @@ app.get('/admin/course_list', function(req, res){
             {id : 'CS001', name : '计算机网络', credit: 3, tname: '吴迪'}
         ]
     })
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+app.post('/admin/save_course', function(req, res) {
+    cop.set(req, res)
+    console.log(req.body)
+    var json = JSON.stringify({
+        responseCode: 200
+    })
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    res.end(json)
+})
+
+app.post('/admin/delete_course', function(req, res) {
+    console.log(req.body.cid)   // 课程id
     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     res.end(json)
 })

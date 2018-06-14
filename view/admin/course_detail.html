@@ -50,14 +50,12 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">授课教师</label>
                     <div class="layui-input-inline">
-                        <div class="layui-input-inline">
-                            <select v-model="tid" lay-filter="tid">
-                                <option selected="">请选择</option>
-                                <option v-for="teacher in teachers" v-bind:value="teacher.id">
-                                    {{teacher.name}}
-                                </option>
-                            </select>
-                        </div>
+                        <select v-model="tid" lay-filter="tid">
+                            <option selected="">请选择</option>
+                            <option v-for="teacher in teachers" v-bind:value="teacher.id">
+                                {{teacher.name}}
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -81,6 +79,7 @@
             teachers: []
         }, methods:{
             comfirm: function (index) {
+                console.log(this.tid)
                 axios.post('/admin/save_teacher', {
                     id: this.id,
                     name: this.name,
@@ -109,7 +108,15 @@
     .then(function (res) {
         if (res.data.responseCode == 200) {
             n.teachers = res.data.resultSet
-            
+            var data = res.data.resultSet
+            // $('dl.layui-anim.layui-anim-upbit').empty()
+            for(var i = 0;i < data.length;i++) {
+                $('dl.layui-anim.layui-anim-upbit').append('<dd lay-value="' + data[i].id + '" class="">'+ data[i].name + '</dd>')
+            }
+            $('dd').click(function(){
+                n.tid = $(this).attr('lay-value');
+                $('input.layui-input.layui-unselect').val($(this).text())
+            })
         }
     })
     .catch(function (res) {
@@ -118,5 +125,4 @@
 
 </script>
 <script src="/res/layui-v2.3.0/layui/layui.all.js"></script>
-
 </body>
