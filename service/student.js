@@ -35,3 +35,29 @@ exports.personal_info = function(req,res,cookies){
         errorMassage:"没有指定的cookie"}
     }
 }
+
+//退课
+exports.drop_course = function(req,res,cookies){
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    console.log("cookies"+cookies.id)
+    console.log(req.body) 
+   if (cookies) {
+       for(i in req.body){
+            var sql = "delete from sc where cid='"+req.body.cid+"' and sid='"+cookies.id+"';"
+            console.log("c_sql"+sql)
+            conn.query(sql, function(data){
+                var json1 = JSON.stringify({
+                    responseCode: 200, 
+                })
+                console.log(json1);
+                res.end(json1)
+            })
+       }
+        
+    } 
+    else {
+        // 没有指定的cookie
+        var data = {errorCode:1,
+        errorMassage:"没有指定的cookie"}
+    }
+}

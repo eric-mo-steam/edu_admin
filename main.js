@@ -89,29 +89,34 @@ app.post('/login', function(req, res) {
 // })
 //这里有一个问题传入参数有课程号吗？
 app.get('/teacher/course_grade_list', function(req, res) {
-    // cop.set(req, res)
-    // var service = require('./service/teacher')
-    // service.course_grade_list(req, res, cop.getCookies())
-    var json = JSON.stringify([
-        {rank : 1,id : 101, name : '张三',  sex : '男', major : '计算机科学与技术', grade : 91,cid :'CS1001'},
-        {rank : 2,id : 102, name : '李四', sex : '男', major : '物联网工程', grade : 90,cid :'CS1001'},
-        {rank : 3,id : 103, name : '王五', sex : '男', major : '计算机科学与技术', grade : 80,cid :'CS1001'},
-        {rank : 4,id : 104, name : '丽君', sex : '女', major : '软件工程', grade : 79,cid :'CS1001'},
-        {rank : 5,id : 105, name : '宋梅', sex : '女', major : '通信工程', grade : 68,cid :'CS1001'},
-    ])
-    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
-    res.end(json)
+    cop.set(req, res)
+    var service = require('./service/teacher')
+    service.course_grade_list(req, res, cop.getCookies())
+ //   var json = JSON.stringify([
+    //     {rank : 1,id : 101, name : '张三',  sex : '男', major : '计算机科学与技术', grade : 91,cid :'CS1001'},
+    //     {rank : 2,id : 102, name : '李四', sex : '男', major : '物联网工程', grade : 90,cid :'CS1001'},
+    //     {rank : 3,id : 103, name : '王五', sex : '男', major : '计算机科学与技术', grade : 80,cid :'CS1001'},
+    //     {rank : 4,id : 104, name : '丽君', sex : '女', major : '软件工程', grade : 79,cid :'CS1001'},
+    //     {rank : 5,id : 105, name : '宋梅', sex : '女', major : '通信工程', grade : 68,cid :'CS1001'},
+    // ])
+    // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    // res.end(json)
 })
-//这里还有一个问题输入的参数是啥？
+//修改完成
+//更新成绩
 app.post('/teacher/update_grade', function(req, res) {
     console.log(req.body) // 成绩名单
-    var json = JSON.stringify({
-        responseCode: 200
-    })
-    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
-    res.end(json)
+    cop.set(req, res)
+    var service = require('./service/teacher')
+    service.update_grade(req, res, cop.getCookies())
+    // var json = JSON.stringify({
+    //     responseCode: 200
+    // })
+    // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    // res.end(json)
 })
 //修改成功
+//老师带的课
 app.get('/teacher/course_teach_list', function(req, res){
     cop.set(req, res)
     var service = require('./service/teacher')
@@ -131,6 +136,7 @@ app.get('/teacher/course_teach_list', function(req, res){
 })
 
 //修改完成
+//老师个人信息
 app.get('/teacher/personal_info', function(req, res) {
     cop.set(req, res)
     var service = require('./service/teacher')
@@ -149,6 +155,7 @@ app.get('/teacher/personal_info', function(req, res) {
 
 
 //修改完成
+//学生个人信息
 app.get('/student/personal_info', function(req, res) {   
     cop.set(req, res)
     var service = require('./service/student')
@@ -204,19 +211,18 @@ app.get('/student/course_selected_list', function(req, res){
     // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     // res.end(json)
 })
-
+//退课操作
 app.post('/student/drop_course', function(req, res){
     cop.set(req, res)
     var service = require('./service/student')
-    var cookies = cop.getCookies()
+    service.drop_course(req, res, cop.getCookies())
+    console.log("退课"+req.body.cid)   // 退选的课程号
 
-    console.log(req.body.cid)   // 退选的课程号
-
-    var json = JSON.stringify({
-        responseCode: 200, 
-    })
-    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
-    res.end(json)
+    // var json = JSON.stringify({
+    //     responseCode: 200, 
+    // })
+    // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    // res.end(json)
 })
 //这个还有点问题
 app.get('/student/course_grade_list', function(req, res){
@@ -273,8 +279,6 @@ app.get('/admin/student_list', function(req, res){
 // })
 
 app.post('/admin/save_student', function(req, res) {
-    cop.set(req, res)
-    console.log(req.body)
     var json = JSON.stringify({
         responseCode: 200
     })

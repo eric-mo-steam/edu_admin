@@ -100,3 +100,28 @@ exports.personal_info = function(req,res,cookies){
         errorMassage:"没有指定的cookie"}
     }
 }
+//修改成绩
+exports.update_grade = function(req,res,cookies){
+    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    console.log("cookies"+cookies.id)
+    console.log(req.body) 
+   if (cookies) {
+       for(i in req.body){
+            var sql = "update sc set grade='"+req.body[i].grade+"' where sid= '"+req.body[i].id+"' and cid ='"+req.body[i].cid+"';"
+            console.log("c_sql"+sql)
+            conn.query(sql, function(data){
+                var json1 = JSON.stringify({
+                    responseCode: 200, 
+                })
+                console.log(json1);
+                res.end(json1)
+            })
+       }
+        
+    } 
+    else {
+        // 没有指定的cookie
+        var data = {errorCode:1,
+        errorMassage:"没有指定的cookie"}
+    }
+}
