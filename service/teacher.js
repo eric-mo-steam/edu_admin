@@ -5,7 +5,7 @@ exports.course_grade_list = function(req,res,cookies){
     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     console.log("cookies"+cookies.id)
    if (cookies) {
-            var sql = "select student.id,student.name,sex,major,grade,sc.cid from student,sc where student.id=sc.sid and cid in (select id from course where tid='"+cookies.id+"');"
+            var sql = "select student.id,student.name,sex,major,grade,sc.cid from student,sc where student.id=sc.sid and cid='"+cookies.cid+"';"
                 console.log("t_sql"+sql)
                 conn.query(sql, function(data){
                     rSet=[]

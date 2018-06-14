@@ -76,6 +76,7 @@ table.layui-table > thead > tr > th, table.layui-table > tbody > tr > td {
                 .then(function (res) {
                     if (res.data.responseCode == 200) {
                         layer.msg('操作成功', {icon: 1, time: 500})
+                        setTimeout("window.location.reload();", 800)
                     } else {
                         layer.alert(res.data.responseMsg, {icon: 2})
                     }

@@ -2,7 +2,7 @@ var mysql = require('mysql')
 var conn = mysql.createConnection({
     host    : 'localhost',
     user    : 'root',
-    password: 'steam',
+    password: '216913',
     database: 'edu_admin'
 })
 
@@ -10,10 +10,10 @@ conn.connect()
 
 exports.query = function(sql, handler){
     conn.query(sql, function(err, result){
-        if(err) {
-            throw err
-        }
-        handler(result)
+        // if(err) {
+        //     throw err
+        // }
+        handler(result,err)
     })
 }
 
