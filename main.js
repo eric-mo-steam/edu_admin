@@ -87,8 +87,11 @@ app.post('/login', function(req, res) {
 //     var service = require('./service/course')
 //     service.course(req, res)
 // })
-
+//这里有一个问题传入参数有课程号吗？
 app.get('/teacher/course_grade_list', function(req, res) {
+    // cop.set(req, res)
+    // var service = require('./service/teacher')
+    // service.course_grade_list(req, res, cop.getCookies())
     var json = JSON.stringify([
         {rank : 1,id : 101, name : '张三',  sex : '男', major : '计算机科学与技术', grade : 91,cid :'CS1001'},
         {rank : 2,id : 102, name : '李四', sex : '男', major : '物联网工程', grade : 90,cid :'CS1001'},
@@ -99,7 +102,7 @@ app.get('/teacher/course_grade_list', function(req, res) {
     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     res.end(json)
 })
-
+//这里还有一个问题输入的参数是啥？
 app.post('/teacher/update_grade', function(req, res) {
     console.log(req.body) // 成绩名单
     var json = JSON.stringify({
@@ -108,47 +111,58 @@ app.post('/teacher/update_grade', function(req, res) {
     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     res.end(json)
 })
-
+//修改成功
 app.get('/teacher/course_teach_list', function(req, res){
-    var json = JSON.stringify({
-        responseCode: 200, 
-        resultSet : [
-            {id : 'CS1001', name : '数据结构', credit : 4},
-            {id : 'CS1002', name : '计算机网络', credit : 4},
-            {id : 'CS1003', name : '算法设计', credit : 5},
-            {id : 'CS1004', name : '人工智能', credit : 4},
-            {id : 'CS1005', name : '操作系统', credit : 4}
-        ]
-    })
-    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
-    res.end(json)
+    cop.set(req, res)
+    var service = require('./service/teacher')
+    service.course_teach_list(req, res, cop.getCookies())
+    // var json = JSON.stringify({
+    //     responseCode: 200, 
+    //     resultSet : [
+    //         {id : 'CS1001', name : '数据结构', credit : 4},
+    //         {id : 'CS1002', name : '计算机网络', credit : 4},
+    //         {id : 'CS1003', name : '算法设计', credit : 5},
+    //         {id : 'CS1004', name : '人工智能', credit : 4},
+    //         {id : 'CS1005', name : '操作系统', credit : 4}
+    //     ]
+    // })
+    // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    // res.end(json)
 })
 
-
+//修改完成
 app.get('/teacher/personal_info', function(req, res) {
-    var json = JSON.stringify({
-        responseCode: 200, 
-        resultSet : {
-            id : 'T001',
-            name : '王伟胜'
-        }
-    })
-    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
-    res.end(json)
+    cop.set(req, res)
+    var service = require('./service/teacher')
+    service.personal_info(req, res, cop.getCookies())
+
+    // var json = JSON.stringify({
+    //     responseCode: 200, 
+    //     resultSet : {
+    //         id : 'T001',
+    //         name : '王伟胜'
+    //     }
+    // })
+    // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    // res.end(json)
 })
 
 
+//修改完成
+app.get('/student/personal_info', function(req, res) {   
+    cop.set(req, res)
+    var service = require('./service/student')
+    service.personal_info(req, res, cop.getCookies())
 
-app.get('/student/personal_info', function(req, res) {
-    var json = JSON.stringify({
-        responseCode: 200, 
-        resultSet : {
-            id : 'S101',
-            name : '张三'
-        }
-    })
-    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
-    res.end(json)
+    // var json = JSON.stringify({
+    //     responseCode: 200, 
+    //     resultSet : {
+    //         id : 'S101',
+    //         name : '张三'
+    //     }
+    // })
+    // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    // res.end(json)
 })
 //返回学生未选课情况
 //我修改了-并且成功了-许飞（这条注释可删）
@@ -204,7 +218,7 @@ app.post('/student/drop_course', function(req, res){
     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     res.end(json)
 })
-
+//这个还有点问题
 app.get('/student/course_grade_list', function(req, res){
     var json = JSON.stringify({
         responseCode: 200, 
