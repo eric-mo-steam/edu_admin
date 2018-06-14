@@ -317,21 +317,32 @@ app.get('/admin/teacher_list', function(req, res){
     // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     // res.end(json)
 })
-
+//添加老师信息
+//完成
 app.post('/admin/save_teacher', function(req, res) {
     cop.set(req, res)
-    console.log(req.body)
-    var json = JSON.stringify({
-        responseCode: 200
-    })
-    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
-    res.end(json)
+    console.log("c_body")
+    console.log(req.body) 
+    var service = require('./service/admin')
+    service.save_teacher(req, res, cop.getCookies())
+    // cop.set(req, res)
+    // console.log(req.body)
+    // var json = JSON.stringify({
+    //     responseCode: 200
+    // })
+    // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    // res.end(json)
 })
 
 app.post('/admin/delete_teacher', function(req, res) {
-    console.log(req.body.tid)   // 课程id
-    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
-    res.end(json)
+    cop.set(req, res)
+    console.log("c_body")
+    console.log(req.body) 
+    var service = require('./service/admin')
+    service.delete_teacher(req, res, cop.getCookies())
+    // console.log(req.body.tid)   // 课程id
+    // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    // res.end(json)
 })
 //全部课程列表
 
@@ -350,7 +361,8 @@ app.get('/admin/course_list', function(req, res){
     // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     // res.end(json)
 })
-
+//添加课程
+//完成
 app.post('/admin/save_course', function(req, res) {
     cop.set(req, res)
     var service = require('./service/admin')
@@ -365,11 +377,17 @@ app.post('/admin/save_course', function(req, res) {
     // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
     // res.end(json)
 })
-
+//删除课程信息
+//完成
 app.post('/admin/delete_course', function(req, res) {
     console.log(req.body.cid)   // 课程id
-    res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
-    res.end(json)
+    cop.set(req, res)
+    var service = require('./service/admin')
+    console.log("c_body")
+    console.log(req.body) 
+    service.delete_course(req, res, cop.getCookies())
+    // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'})
+    // res.end(json)
 })
 
 
