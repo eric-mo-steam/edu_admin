@@ -134,35 +134,32 @@ body {
 
 
 <script>
-    var n = new Vue({
-        el: '#app',
-        data: {
-            username : '',
-            password : '',
-            userType : ''
-        }, methods:{
-            login: function (event) {
-                console.log('username: ' + this.username)
-                console.log('password: ' + this.password)
-                console.log('userType: ' + this.userType)
-
-                axios.post('/login', {
-                    username: this.username,
-                    password: this.password,
-                    userType: this.userType
+    var n = new Vue({   // 创建Vue的实例
+        el: '#app',     // 将该实例与dom中id为app的元素绑定
+        data: {         // Vue实例中属性的定义和初始化
+            username : '',  // 用户名
+            password : '',  // 密码
+            userType : ''   // 用户类型
+        }, methods:{    // Vue实例的方法
+            login: function () {
+                // post请求，提交数据到后台的/login
+                axios.post('/login', {  
+                    username: this.username, // 用户名
+                    password: this.password, // 密码
+                    userType: this.userType  // 用户类型
                 })
-                .then(function (res) {
+                // 处理请求的响应体
+                .then(function (res) {  // res为响应体
+                    // 如果我们定义的响应码为200
                     if (res.data.responseCode === 200) {
+                        // 获取响应数据中的url，做页面跳转
                         window.location.href = res.data.url
                     } else {
+                        // 登录失败，弹窗显示失败信息
                         var msg = res.data.responseMsg
-                        layer.alert(msg, {icon: 2});
-
+                        layer.alert(msg, {icon: 2})
                     }
                 })
-                .catch(function (res) {
-                    console.log(res);
-                });
             }
         }
     })

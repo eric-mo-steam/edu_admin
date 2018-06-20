@@ -11,7 +11,7 @@ function CookieOp() {
         this.request = req
         this.response = res
         this.cookies = req.signedCookies
-        this.maxAge = 9000000
+        this.maxAge = 10000
     };
 
     this.get = function(key) { 
